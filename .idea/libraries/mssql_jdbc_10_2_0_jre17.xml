@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="mssql-jdbc-10.2.0.jre17">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/sqljdbc_10.2/chs/mssql-jdbc-10.2.0.jre17.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$USER_HOME$/Downloads/sqljdbc_10.2/chs/auth/x64" />
+    </NATIVE>
+    <SOURCES />
+  </library>
+</component>
