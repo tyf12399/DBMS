@@ -1,28 +1,23 @@
 package pers.tangyf.dbms.dao;
 
-import pers.tangyf.dbms.data.*;
-
 import java.sql.*;
 import java.util.*;
 
 public class Dao {
     private static Connection conn = null;
-
     private Dao() {
+
         String connectionUrl =
                 "jdbc:sqlserver://localhost:1433;"
-                        + "database=AGradeDB;"
+                        + "database=GradeDB;"
                         + "user=sa;"
                         + "password=just4Momizi;"
                         + "encrypt=true;"
-                        + "trustServerCertificate=false;"
-                        + "loginTimeout=30;";
+                        + "trustServerCertificate=true;";
 
-        try (Connection connection = DriverManager.getConnection(connectionUrl);) {
-            // Code here.
-        }
-        // Handle any errors that may have occurred.
-        catch (SQLException e) {
+        try {
+            conn = DriverManager.getConnection(connectionUrl);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -49,7 +44,7 @@ public class Dao {
         }
     }
 
-    public static boolean checkLogin(String user, char[] pwd) {
+    public static boolean checkLogin(String user, String pwd) {
         String userCheckSQL = "select * from admin where username='" + user + "' and pwd='" + pwd + "'";
         System.out.println(userCheckSQL);
         ResultSet rs = executeQuery(userCheckSQL);
@@ -75,12 +70,12 @@ public class Dao {
         ResultSet rs = Dao.executeQuery(sql);
         try {
             while (rs.next()) {
-                Course Courseinfo = new Course();
+//                Course Courseinfo = new Course();
 //                Courseinfo.setCourseID(rs.getInt("CourseID"));
 //                Courseinfo.setcname(rs.getString("cname"));
 //                Courseinfo.setAuthorList(rs.getString("AuthorList"));
 //                Courseinfo.setCourseDate(rs.getDate("Coursedate"));
-                list.add(Courseinfo);
+//                list.get(Courseinfo);
 
             }
         } catch (Exception e) {
@@ -93,7 +88,8 @@ public class Dao {
     public static int InsertCourse(String cname, int credit, int cid) {
         int i = 0;
         try {
-            String sql = "insert into Courses(cid,cname,authorlist) values('" + cid + "','" + cname + "','" + credit + "')";
+            String sql =
+                    "insert into Courses(cid,cname,authorlist) values('" + cid + "','" + cname + "','" + credit + "')";
             System.out.println(sql);
             i = Dao.executeUpdate(sql);
         } catch (Exception e) {

@@ -1,10 +1,8 @@
-package pers.tangyf.dbms.window;
+package pers.tangyf.dbms.view;
 
 import pers.tangyf.dbms.dao.Dao;
 import pers.tangyf.dbms.data.Admin;
 import pers.tangyf.dbms.util.CreatedIcon;
-import pers.tangyf.dbms.view.ManagementStudio;
-
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,35 +14,11 @@ import java.awt.event.KeyEvent;
 
 
 public class LoginFrame extends JFrame {
-    private class ResetAction implements ActionListener {//重置动作
-
-        public void actionPerformed(final ActionEvent e) {
-            username.setText("");
-            password.setText("");
-        }
-    }
-
-    class LoginAction implements ActionListener {//登录动作
-
-        public void actionPerformed(final ActionEvent e) {
-            if (Dao.checkLogin(username.getText(), password.getPassword())) {
-                ManagementStudio frame = new ManagementStudio();
-                frame.setVisible(true);
-                LoginFrame.this.setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "密码错误或用户不存在");
-                username.setText("");
-                password.setText("");
-            }
-        }
-    }
-
+    private static Admin admin;
     private final JPasswordField password;
     private final JTextField username;
     private final JButton login;
     private final JButton reset;
-    private static Admin admin;
-
     public LoginFrame() {
         super();
         final BorderLayout borderLayout = new BorderLayout();
@@ -52,7 +26,7 @@ public class LoginFrame extends JFrame {
         borderLayout.setVgap(10);
         getContentPane().setLayout(borderLayout);
         setTitle("成绩管理系统登录");
-        setBounds(100, 100, 385, 194);
+        setBounds(100, 100, 260, 194);
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -95,14 +69,37 @@ public class LoginFrame extends JFrame {
         reset.addActionListener(new ResetAction());
         reset.setText("重置");
         panel_1.add(reset);
-        final JLabel tupianLabel = new JLabel();
-        ImageIcon loginIcon = CreatedIcon.add("logo.png");
-        tupianLabel.setIcon(loginIcon);
-        tupianLabel.setOpaque(true);
-        tupianLabel.setBackground(Color.GREEN);
-        tupianLabel.setPreferredSize(new Dimension(260, 60));
-        panel.add(tupianLabel, BorderLayout.NORTH);
+        final JLabel bannerLabel = new JLabel();
+        ImageIcon loginIcon = CreatedIcon.get("login.jpg");
+        bannerLabel.setIcon(loginIcon);
+        bannerLabel.setOpaque(true);
+        bannerLabel.setBackground(Color.GREEN);
+        bannerLabel.setPreferredSize(new Dimension(260, 60));
+        panel.add(bannerLabel, BorderLayout.NORTH);
         setVisible(true);
         setResizable(false);
+    }
+
+    private class ResetAction implements ActionListener {//重置动作
+
+        public void actionPerformed(final ActionEvent e) {
+            username.setText("");
+            password.setText("");
+        }
+    }
+
+    class LoginAction implements ActionListener {//登录动作
+
+        public void actionPerformed(final ActionEvent e) {
+            if (Dao.checkLogin(username.getText(), String.valueOf(password.getPassword()))) {
+                ManagementStudio frame = new ManagementStudio();
+                frame.setVisible(true);
+                LoginFrame.this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "密码错误或用户不存在");
+                username.setText("");
+                password.setText("");
+            }
+        }
     }
 }
